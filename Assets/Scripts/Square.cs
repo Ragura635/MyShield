@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Square : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Square : MonoBehaviour
 
         transform.position = new Vector2(x, y);
         transform.localScale = new Vector2(size, size);
+
+        Invoke("SelfDestroy", 3f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -24,5 +27,10 @@ public class Square : MonoBehaviour
     private void OnBecameInvisible()
     {
         Destroy(this.gameObject);
+    }
+
+    public void DestroyBSelfDestroyullet()
+    {
+        ObjectPoolManager.instance.objectPool.Release(this.gameObject);
     }
 }

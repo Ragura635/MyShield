@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     void MakeSquare()
     {
-        Instantiate(square);
+        ObjectPoolManager.instance.objectPool.Get();
     }
 
     void TimeStop()
