@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject square;
+    //public GameObject square;
     public GameObject endPanel;
     public Text timeTxt;
     public Text nowScore;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         isPlay = true;
         Time.timeScale = 1.0f;
-        InvokeRepeating("MakeSquare", 0f, 1f);
+        InvokeRepeating(nameof(MakeSquare), 0f, 1f);
     }
 
     // Update is called once per frame
@@ -46,7 +46,23 @@ public class GameManager : MonoBehaviour
 
     void MakeSquare()
     {
-        ObjectPoolManager.instance.objectPool.Get();
+        /*
+        기존 생성 방법
+        Instantiate(square);
+        */
+        if (ObjectPoolManager.instance != null)
+        {
+            GameObject square = ObjectPoolManager.instance.GetObject();
+
+            // Square 오브젝트 위치, 크기, 회전값 초기화
+            float x = Random.Range(-3.0f, 3.0f);
+            float y = Random.Range(3.0f, 5.0f);
+            float size = Random.Range(0.5f, 1.5f);
+
+            square.transform.position = new Vector2(x, y);
+            square.transform.localScale = new Vector2(size, size);
+            square.transform.rotation = Quaternion.identity;
+        }
     }
 
     void TimeStop()

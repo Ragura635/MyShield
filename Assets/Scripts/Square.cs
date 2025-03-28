@@ -3,7 +3,8 @@ using UnityEngine.Pool;
 
 public class Square : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /*
+    기존 코드
     void Start()
     {
         float x = Random.Range(-3.0f, 3.0f);
@@ -12,8 +13,19 @@ public class Square : MonoBehaviour
 
         transform.position = new Vector2(x, y);
         transform.localScale = new Vector2(size, size);
+    }
+    private void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
+    }
+    */
 
-        Invoke("SelfDestroy", 3f);
+    private void Update()
+    {
+        if (this.transform.position.y < -5)
+        {
+            ObjectPoolManager.instance.ReleaseObject(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -22,15 +34,5 @@ public class Square : MonoBehaviour
         {
             GameManager.instance.GameOver();
         }
-    }
-
-    private void OnBecameInvisible()
-    {
-        Destroy(this.gameObject);
-    }
-
-    public void DestroyBSelfDestroyullet()
-    {
-        ObjectPoolManager.instance.objectPool.Release(this.gameObject);
     }
 }
